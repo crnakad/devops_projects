@@ -1,0 +1,1 @@
+This task was not executed as requested because I was short on time, but this is a manifest that deploys a wordpress application with a volume, and variables passed to connect to the database. The volume claim is using managed-nfs-storage which is an nfs volume provisioner, preconfigured in the kubernetes cluster.
