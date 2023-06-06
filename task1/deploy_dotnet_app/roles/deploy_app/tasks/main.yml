@@ -1,0 +1,47 @@
+---
+# tasks file for roles/deploy_app
+
+- name: check if docker exists
+  stat:
+    path: "{{ docker_bin }}"
+  register: __check_docker_present
+
+- name: install docker and docker-compose if they don't exist
+  raw: |
+        curl -fsSL get.docker.com -o get-docker.sh | sudo bash -
+  args:
+    executable: /bin/bash
+  when: __check_docker_present.stat.exists == false
+  changed_when: false
+
+- name: enable docker service
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add ansible user to docker group
+  raw: |
+        sudo usermod -aG docker ansible
+  args:
+    executable: /bin/bash
+
+- name: Generate docker-compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: "/home/ansible/docker-compose.yml"
+    mode: 0755
+    owner: "ansible"
+    group: "ansible"
+
+- name: Log into docker registry
+  community.docker.docker_login:
+    registry_url: "{{ docker_reg_url }}"
+    username: "{{ docker_reg_user }}"
+    password: "{{ docker_reg_password }}"
+
+- name: Deploy Docker Compose Stack
+  become: True
+  shell:
+    cmd: "docker-compose -f docker-compose.yml up -d"
+    chdir: /home/ansible/

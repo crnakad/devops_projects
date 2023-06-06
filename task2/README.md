@@ -1,0 +1,6 @@
+1. The best way to structure a Terraform project if we have multiple environments with multiple cloud providers is using Terraform workspaces. We create a different workspace for each environment, and tag the needed resources in each terraform configuration that are equivalent to the needed environment with the workspace name. This way we don't have duplication of code and the same configuration can be deployed on several environments.
+
+2. This terraform configuration deploys an ubuntu EC2 instance to the eu-central-1 region, and runs the playbook created in task1. To apply this configuration, first we need to create an aws ec2 keypair called ubuntu_instance_kp, then define it in the ec2 instance block, and use it for ssh execute the commands inside the instance. to apply the configuration run in the directory of the configuration:
+terraform plan -var 'UserPass=UserPass' ## we define the ansible user password
+terraform apply -var 'UserPass=UserPass'
+We first install ansible, then install git and clone the repo to get the playbook and the roles.

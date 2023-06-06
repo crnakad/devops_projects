@@ -1,0 +1,23 @@
+- name: Preparing environment
+  hosts: all
+  become: True
+  gather_facts: False
+  vars_files:
+    - environment.yaml
+  pre_tasks:
+  - name: prepare environment
+    raw: |
+          sudo apt -y update
+          sudo apy -y install wget
+          sudo apt -y install python3
+          sudo apt -y install python
+    args:
+      executable: /bin/bash
+
+- name: Deploy App and DB
+  vars_files:
+    - environment.yaml
+  hosts: local
+  become: True
+  roles:
+  - deploy_app

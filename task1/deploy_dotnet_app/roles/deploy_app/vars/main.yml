@@ -1,0 +1,8 @@
+---
+# vars file for roles/deploy_app
+TAG: "1.2.0"
+DB_USER: "db_user"
+DB_PASSWORD: "Db_P@ssWord135"
+DB_NAME: "dotnetdb"
+DOTNET_PORT: "8081"
+POSTGRES_PORT: "8082"

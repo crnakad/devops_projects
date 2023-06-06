@@ -1,0 +1,6 @@
+---
+# defaults file for roles/deploy_app
+docker_bin: /usr/bin/docker
+docker_reg_url: https://registry.charbel.com
+docker_reg_user: docker_user
+docker_reg_password: Docker_Pass_123

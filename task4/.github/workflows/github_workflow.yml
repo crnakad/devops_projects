@@ -1,0 +1,26 @@
+name: maven.build.java.service
+on:
+   workflow_dispatch:
+
+env:
+  REPO_OWNER: ${{ github.event.inputs.repo_owner }}
+  REPO_NAME: ${{ github.event.inputs.repo_name }}
+  BRANCH: ${{ github.event.inputs.branch }}
+  PROJECT: simple-java-maven-app
+
+jobs:
+  build-test-package:
+    runs-on: [local_runners]
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Build Code
+      run: |
+         cd task4/${{ env.PROJECT }}
+         mvn clean compile package -Dskiptests
+
+    - name: Run Tests
+      run: |
+         cd task4/${{ env.PROJECT }}
+         mvn test
